@@ -1,10 +1,19 @@
 package com.example.application
 
-data class Note(var id: String,var title: String,
-                var note: String,var timestamp: String){
+ class Note{
+ var id: String? = null
+ var title: String?  = null
+var note: String? = null
+ var timestamp: String? = null
 
-constructor():this(id: String, title: String, note: String, timestamp: String){
+     constructor(){
 
+     }
+constructor(id: String, title: String, note: String, timestamp: String){
+  this.id = id
+    this.title = title
+    this.note = note
+    this.timestamp = timestamp
 }
 
 }

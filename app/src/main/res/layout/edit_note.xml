@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/titleEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Enter Title :"
+        />
+
+    <EditText
+        android:id="@+id/noteEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:inputType="textPersonName"
+        android:hint="Enter Note :"
+        />
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_margin="10dp"
+       android:layout_gravity="center">
+
+       <Button
+           android:id="@+id/updateBtn"
+           android:layout_width="120dp"
+           android:layout_height="wrap_content"
+           android:text="Update"
+           android:layout_marginEnd="40dp"
+           android:textAllCaps="false"
+           android:textSize="18sp" />
+
+       <Button
+           android:id="@+id/deleteBtn"
+           android:layout_width="120dp"
+           android:layout_height="wrap_content"
+           android:text="delete"
+           android:layout_marginStart="20dp"
+           android:textAllCaps="false"
+           android:textSize="18sp" />
+   </LinearLayout>
+</LinearLayout>

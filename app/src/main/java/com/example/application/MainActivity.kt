@@ -1,8 +1,11 @@
 package com.example.application
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -33,25 +36,48 @@ class MainActivity : AppCompatActivity() {
              showDialog()
         }
 
-        // Read from the database
+       binding.listView.setOnItemClickListener { parent, view, position, id ->
+           var note = mNoteList.get(position)
+           var noteIntent = Intent(this,NoteActivity::class.java)
+           noteIntent.putExtra("note_key",note.note)
+           noteIntent.putExtra("title_key",note.title)
+           startActivity(noteIntent)
+       }
 
+        binding.listView.onItemLongClickListener = AdapterView.OnItemLongClickListener{
+                adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+            val alertBuilder = AlertDialog.Builder(this)
+            val view = layoutInflater.inflate(R.layout.edit_note,null)
+            var alertDialog = alertBuilder.create()
+            alertDialog.setView(view)
+            alertDialog.show()
+            var noteEdit = view.findViewById<EditText>(R.id.noteEdit)
+            var titleEdit = view.findViewById<EditText>(R.id.titleEdit)
+            var updateBtn = view.findViewById<Button>(R.id.updateBtn)
+            var deletteBtn = view.findViewById<Button>(R.id.deleteBtn)
+
+            var myNote = mNoteList.get(i)
+            noteEdit.setText(myNote.note)
+            titleEdit.setText(myNote.title)
+
+            false
+        }
 
     }
-
+    // Read from the database
     override fun onStart() {
+        mNoteList?.clear()
         super.onStart()
-        mRef!!.addValueEventListener(object : ValueEventListener {
+        // Read from the database
+        mRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                mNoteList?.clear()
-             for(n in dataSnapshot.children){
-                 //Toast.makeText(applicationContext,n.toString(),Toast.LENGTH_LONG).show()
-                 Log.e("Main", "onDataChange: ")
 
-                 var note = dataSnapshot.getValue(Note::class.java)
-                 mNoteList?.add(note!!)
-             }
-                val adapter = NoteAdapter(applicationContext, mNoteList!!)
-                binding.listView.adapter = adapter
+                for( n in dataSnapshot.children){
+                    var note = n.getValue(Note::class.java)
+                    mNoteList.add(0,note!!)
+                }
+                var noteAdapter = NoteAdapter(applicationContext,mNoteList)
+                binding.listView.adapter = noteAdapter
             }
 
             override fun onCancelled(error: DatabaseError) {
